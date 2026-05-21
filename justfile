@@ -1,12 +1,11 @@
 pwd := source_dir()
-export KUBECONFIG := pwd + "kubeconfig"
+export KUBECONFIG := pwd + "/kubeconfig"
 
 docker:
   docker compose up
 
 k8s:
   minikube start
-  kubectl config view --minify --context=minikube > kubeconfig
   terraform apply -auto-approve
   kubectl port-forward --kubeconfig=kubeconfig -n traefik deployment/traefik 8080:8000 8443:8443 &
 
